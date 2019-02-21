@@ -4,6 +4,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+/**
+ * Класс лакомства , где задана ширина лакомства, текстура , позиция и rectangle.
+ */
 
 public class Award {
 
@@ -20,6 +23,11 @@ public class Award {
     public Vector2 getPosAward() {
         return posAward;
     }
+
+    /**
+     * Метод в котором задана текстура лакомства, позиция, и прямоугольник (rectangle).
+     * @param x горизонтальный вектор
+     */
 
     public Award(float x){
         award = new Texture("lac.png");

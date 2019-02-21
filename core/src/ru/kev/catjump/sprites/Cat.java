@@ -14,14 +14,14 @@ public class Cat {
     private static final int MOVEMENT = 175;
     private static final int GRAVITY = -70;
     private Vector2 position;
-    private Vector2 velosity;
+    private Vector2 speedVector;
     private Animation catAnimation;
     private Rectangle boundsCat;
 
 
     public Cat(int x, int y) {
         position = new Vector2(x,y);
-        velosity = new Vector2(0,0);
+        speedVector = new Vector2(0,0);
 
         Texture cat = new Texture("catatlas.png");
         catAnimation = new Animation(new TextureRegion(cat), 5, 0.8f);
@@ -47,17 +47,17 @@ public class Cat {
     public void update(float dt) {
         catAnimation.update(dt);
         if (position.y > 50 )
-            velosity.add(0 , GRAVITY );
-        velosity.scl(dt);
-        position.add(MOVEMENT * dt,velosity.y);
+            speedVector.add(0 , GRAVITY );
+        speedVector.scl(dt);
+        position.add(MOVEMENT * dt, speedVector.y);
         if (position.y < 50 )
             position.y = 50;
-        velosity.scl(1 / dt);
+        speedVector.scl(1 / dt);
         boundsCat.setPosition(position.x , position.y);
     }
 
     public void jump() {
-        velosity.y = 400;
+        speedVector.y = 400;
     }
 
     public Rectangle getBoundsCat() {

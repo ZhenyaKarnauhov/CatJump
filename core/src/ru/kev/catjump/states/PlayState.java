@@ -73,9 +73,9 @@ public class PlayState extends State {
 
     }
     /**
-     * Задано условие конца игры, если cat сталкивается с transparentBlock's то попадает на экран Gameover, по которому после нажав на экран начнётся игра заново.
+     *
+     * @param dt промежуток времени
      */
-
     @Override
     public void update(float dt) {
         handleInput();
@@ -85,37 +85,84 @@ public class PlayState extends State {
     }
 
     /**
-     * Метод render.
-     * Где обрабывает каждое новое появление block's , transparentBlock's , и award's.
-     * Также задан счётчик.
+     * Происходит исполнение методов drawing , check.
      */
 
     @Override
     public void render(SpriteBatch sb) {
+        drawing(sb);
+        check();
+    }
+
+    /**
+     * Отрисовка счётчика , фона, и кота.
+     * @param sb упаковщик текстур
+     */
+
+    private void drawing(SpriteBatch sb) {
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
         sb.draw(bg, camera.position.x - (camera.viewportWidth / 2), 0);
         sb.draw(cat.getCat(), cat.getPosition().x, cat.getPosition().y);
+        broadCast(sb);
+        font.draw(sb, "Score: " + countCoins, camera.position.x - 400, 480);
+        sb.end();
+    }
 
+    /**
+     * Отрисовывает блоки.
+     * @param sb упаковщик текстур
+     */
+
+    private void broadCast(SpriteBatch sb) {
+        block(sb);
+        transParentBlock(sb);
+        award(sb);
+    }
+
+    /**
+     * Отрисовывает блоки по которым бежит кот.
+     * @param sb упаковщик текстур
+     */
+
+    private void block(SpriteBatch sb) {
         for (Block block : blocks) {
             sb.draw(block.getBlock(), block.getPosBlock().x, block.getPosBlock().y);
         }
+    }
 
+    /**
+     * Отрисовывает прозрачные блоки, которые являются пропастью для кота.
+     *
+     * @param sb упаковщик текстур
+     */
+
+    private void transParentBlock(SpriteBatch sb){
         for (TransparentBlock transparentBlock : transparentBlocks) {
             sb.draw(transparentBlock.getTransparent(), transparentBlock.getPosTransparent().x, transparentBlock.getPosTransparent().y);
         }
+    }
 
+    /**
+     * Отрисовывает блоки лакомств которые собирает кот.
+     * @param sb упаковщик текстур
+     */
+
+    private void award(SpriteBatch sb) {
         for (Award award : awards) {
             sb.draw(award.getAward(), award.getPosAward().x, award.getPosAward().y);
         }
+    }
 
-        font.draw(sb, "Score: " + countCoins, camera.position.x - 400, 480);
-        sb.end();
+    /**
+     * Проверка условий различных столкновений.
+     */
+
+    private void check() {
 
         /*
-          Проверка столкновения кота с лакомством.
+          Условия столкновения кота с лакомством.
          */
-
         Iterator<Award> iterator = awards.iterator();
         while (iterator.hasNext()) {
             Award coin = iterator.next();
@@ -137,7 +184,6 @@ public class PlayState extends State {
                 iterator1.remove();
             }
         }
-
     }
 
     @Override
