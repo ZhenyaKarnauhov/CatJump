@@ -5,15 +5,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 
 /**
  * Класс котика, задаются позиция котика, его техтура, анимация и скорость прыжка
  */
 
 public class Cat {
-    private static final int MOVEMENT = 230;
-    private static final int GRAVITY = -25;
+    private static final int MOVEMENT = 175;
+    private static final int GRAVITY = -70;
     private Vector2 position;
     private Vector2 velosity;
     private Animation catAnimation;
@@ -58,7 +57,7 @@ public class Cat {
     }
 
     public void jump() {
-        velosity.y = 500;
+        velosity.y = 400;
     }
 
     public Rectangle getBoundsCat() {

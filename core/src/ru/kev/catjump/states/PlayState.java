@@ -28,7 +28,6 @@ public class PlayState extends State {
     private GameStateManager gsm;
 
     private Cat cat;
-    private TransparentBlock transparentBlock;
     private Texture bg;
     private BitmapFont font;
     private Array<Award> awards;
@@ -45,7 +44,6 @@ public class PlayState extends State {
         super(gsm);
         this.gsm = gsm;
         cat = new Cat(0, 0);
-        transparentBlock = new TransparentBlock(50);
         camera.setToOrtho(false, CatJump.WIDTH, CatJump.HEIGHT);
         bg = new Texture("picture1.png");
         font = new BitmapFont();
@@ -59,7 +57,7 @@ public class PlayState extends State {
             blocks.add(new Block(i * (BLOCK_WIDTH + Block.BLOCK_SPACING) ));
         }
         for (int i = 0; i < TRANSPARENT_COUNT; i++) {
-            transparentBlocks.add(new TransparentBlock(i * (TransparentBlock.TRANSPARENT_WIDTH + TRANSPARENT_SPACING) + 305));
+            transparentBlocks.add(new TransparentBlock(i * (TransparentBlock.TRANSPARENT_WIDTH + TRANSPARENT_SPACING) + 740));
         }
 
 
@@ -84,14 +82,6 @@ public class PlayState extends State {
         cat.update(dt);
         camera.position.x = cat.getPosition().x + 300;
         camera.update();
-        try {
-            if (cat.getBoundsCat().overlaps(transparentBlock.getBoundTransparent())) {
-                gsm.set(new Gameover(gsm));
-            }
-        }
-        catch (Exception ex) {
-            ex.printStackTrace();
-        }
     }
 
     /**
@@ -122,6 +112,10 @@ public class PlayState extends State {
         font.draw(sb, "Score: " + countCoins, camera.position.x - 400, 480);
         sb.end();
 
+        /*
+          Проверка столкновения кота с лакомством.
+         */
+
         Iterator<Award> iterator = awards.iterator();
         while (iterator.hasNext()) {
             Award coin = iterator.next();
@@ -130,6 +124,20 @@ public class PlayState extends State {
                 iterator.remove();
             }
         }
+
+        /*
+          Проверка столкновения кота с прозрачным блоком (пропастью)
+         */
+
+        Iterator<TransparentBlock> iterator1 = transparentBlocks.iterator();
+        while (iterator1.hasNext()) {
+            TransparentBlock transparentBlock = iterator1.next();
+            if (cat.getBoundsCat().overlaps(transparentBlock.getBoundTransparent())) {
+                gsm.set(new Gameover(gsm));
+                iterator1.remove();
+            }
+        }
+
     }
 
     @Override

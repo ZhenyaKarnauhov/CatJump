@@ -13,7 +13,7 @@ public class Gameover extends State {
 
     Gameover(GameStateManager gsm) {
         super(gsm);
-        camera.setToOrtho(false, CatJump.WIDTH / 2, CatJump.HEIGHT / 2);
+        camera.setToOrtho(false, CatJump.WIDTH, CatJump.HEIGHT);
         background = new Texture("picture1.png");
         gameover = new Texture("gameover.png");
     }
